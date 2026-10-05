@@ -193,3 +193,92 @@ option.addEventListener("click", () => {
 
 
 applyFont(localStorage.getItem("font") || "tajawal");
+
+
+const colorsGrid = document.getElementById("theme-colors-grid");
+const resetBtn = document.getElementById("reset-settings");
+
+
+const themeColors = [
+  { primary: "#6366f1", secondary: "#8b5cf6" }, 
+  { primary: "#ec4899", secondary: "#f43f5e" },
+  { primary: "#10b981", secondary: "#14b8a6" },
+  { primary: "#f59e0b", secondary: "#f97316" },
+  { primary: "#3b82f6", secondary: "#06b6d4" },
+  { primary: "#ef4444", secondary: "#f97316" },
+  { primary: "#8b5cf6", secondary: "#d946ef" },
+  { primary: "#14b8a6", secondary: "#22c55e" },
+];
+
+function applyColor(color) {
+const root = document.documentElement;
+root.style.setProperty("--color-primary", color.primary);
+root.style.setProperty("--color-secondary", color.secondary);
+localStorage.setItem("themeColor", JSON.stringify(color));
+}
+
+
+// themeColors.forEach(function (color) {
+// const dot = document.createElement("button");
+// dot.type = "button";
+// dot.setAttribute("aria-label", "لون " + color.primary);
+// dot.className = "w-full aspect-square rounded-full border-2 border-transparent hover:scale-110 transition-transform";
+// dot.style.background = "linear-gradient(135deg, " + color.primary + ", " + color.secondary + ")";
+
+// dot.addEventListener("click", function () {
+//     applyColor(color);
+// });
+
+// colorsGrid.appendChild(dot);
+// });
+
+themeColors.forEach(function (color) {
+  const dot = document.createElement("button");
+  dot.type = "button";
+  dot.setAttribute("aria-label", "لون " + color.primary);
+
+  dot.style.width = "100%";
+  dot.style.aspectRatio = "1 / 1";
+  dot.style.borderRadius = "50%";
+  dot.style.border = "2px solid transparent";
+  dot.style.cursor = "pointer";
+  dot.style.background = "linear-gradient(135deg, " + color.primary + ", " + color.secondary + ")";
+
+  dot.addEventListener("click", function () {
+    applyColor(color);
+  });
+
+  colorsGrid.appendChild(dot);
+});
+const savedColor = localStorage.getItem("themeColor");
+if (savedColor) {
+applyColor(JSON.parse(savedColor));
+}
+
+
+resetBtn.addEventListener("click", function () {
+localStorage.removeItem("themeColor");
+localStorage.removeItem("font");
+document.documentElement.style.removeProperty("--color-primary");
+document.documentElement.style.removeProperty("--color-secondary");
+applyFont("tajawal");
+});
+
+const scrollTopBtn = document.getElementById("scroll-to-top");
+
+function toggleScrollTopBtn() {
+if (window.scrollY > 400) {
+    scrollTopBtn.style.opacity = "1";
+    scrollTopBtn.style.visibility = "visible";
+} else {
+    scrollTopBtn.style.opacity = "0";
+    scrollTopBtn.style.visibility = "hidden";
+}
+}
+
+window.addEventListener("scroll", toggleScrollTopBtn);
+toggleScrollTopBtn();
+
+scrollTopBtn.addEventListener("click", function () {
+window.scrollTo({ top: 0, behavior: "smooth" });
+});
