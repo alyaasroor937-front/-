@@ -217,21 +217,6 @@ root.style.setProperty("--color-secondary", color.secondary);
 localStorage.setItem("themeColor", JSON.stringify(color));
 }
 
-
-// themeColors.forEach(function (color) {
-// const dot = document.createElement("button");
-// dot.type = "button";
-// dot.setAttribute("aria-label", "لون " + color.primary);
-// dot.className = "w-full aspect-square rounded-full border-2 border-transparent hover:scale-110 transition-transform";
-// dot.style.background = "linear-gradient(135deg, " + color.primary + ", " + color.secondary + ")";
-
-// dot.addEventListener("click", function () {
-//     applyColor(color);
-// });
-
-// colorsGrid.appendChild(dot);
-// });
-
 themeColors.forEach(function (color) {
   const dot = document.createElement("button");
   dot.type = "button";
