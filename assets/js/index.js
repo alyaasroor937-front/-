@@ -30,7 +30,7 @@ const themeToggleBtn = document.getElementById("theme-toggle-button");
 
 const savedTheme = localStorage.getItem("theme");
 if (savedTheme === "light") {
-  htmlElement.classList.remove("dark");
+htmlElement.classList.remove("dark");
 }
 updateThemeButton();
 
@@ -47,3 +47,35 @@ function updateThemeButton() {
 const isDark = htmlElement.classList.contains("dark");
 themeToggleBtn.setAttribute("aria-pressed", isDark);
 }
+
+const filterButtons = document.querySelectorAll(".portfolio-filter");
+const portfolioItems = document.querySelectorAll(".portfolio-item");
+
+const activeClasses = [
+  "bg-linear-to-r", "from-primary", "to-secondary", "text-white",
+];
+const inactiveClasses = [
+  "bg-white", "dark:bg-slate-800", "text-slate-600", "dark:text-slate-300",
+  "border", "border-slate-300", "dark:border-slate-700",
+];
+
+filterButtons.forEach((button) => {
+button.addEventListener("click", () => {
+    const filter = button.dataset.filter;
+
+    
+    filterButtons.forEach((btn) => {
+    const isActive = btn === button;
+    btn.classList.toggle("active", isActive);
+    btn.setAttribute("aria-pressed", isActive);
+    activeClasses.forEach((c) => btn.classList.toggle(c, isActive));
+    inactiveClasses.forEach((c) => btn.classList.toggle(c, !isActive));
+    });
+
+
+    portfolioItems.forEach((item) => {
+    const matches = filter === "all" || item.dataset.category === filter;
+    item.classList.toggle("hidden", !matches);
+    });
+});
+});
