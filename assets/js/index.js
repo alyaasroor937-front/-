@@ -165,3 +165,31 @@ settingsToggle.addEventListener("click", () => {
 });
 
 closeSettings.addEventListener("click", closeSettingsPanel);
+
+const fontOptions = document.querySelectorAll(".font-option");
+const allFonts = ["alexandria", "tajawal", "cairo"];
+
+function applyFont(fontName) {
+
+allFonts.forEach((font) => document.body.classList.remove(`font-${font}`));
+document.body.classList.add(`font-${fontName}`);
+
+
+fontOptions.forEach((option) => {
+    const isActive = option.dataset.font === fontName;
+    option.classList.toggle("active", isActive);
+    option.setAttribute("aria-checked", isActive);
+});
+
+
+localStorage.setItem("font", fontName);
+}
+
+fontOptions.forEach((option) => {
+option.addEventListener("click", () => {
+    applyFont(option.dataset.font);
+});
+});
+
+
+applyFont(localStorage.getItem("font") || "tajawal");
