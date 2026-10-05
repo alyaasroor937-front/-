@@ -79,3 +79,61 @@ button.addEventListener("click", () => {
     });
 });
 });
+
+
+// ===== 4) Testimonials Carousel =====
+const carousel = document.getElementById("testimonials-carousel");
+const testimonialCards = document.querySelectorAll(".testimonial-card");
+const nextBtn = document.getElementById("next-testimonial");
+const prevBtn = document.getElementById("prev-testimonial");
+const indicators = document.querySelectorAll(".carousel-indicator");
+
+let currentIndex = 0;
+
+function getVisibleCards() {
+  if (window.innerWidth >= 1024) return 3;
+  if (window.innerWidth >= 640) return 2;
+  return 1;
+}
+
+function updateCarousel() {
+  const maxIndex = testimonialCards.length - getVisibleCards();
+
+ 
+  if (currentIndex > maxIndex) currentIndex = maxIndex;
+  if (currentIndex < 0) currentIndex = 0;
+
+  const cardWidth = testimonialCards[0].offsetWidth;
+  carousel.style.transform = `translateX(${currentIndex * cardWidth}px)`;
+
+  indicators.forEach((dot, index) => {
+    const isActive = index === currentIndex;
+    dot.classList.toggle("bg-accent", isActive);
+    dot.classList.toggle("bg-slate-400", !isActive);
+    dot.classList.toggle("dark:bg-slate-600", !isActive);
+    dot.setAttribute("aria-selected", isActive);
+  });
+}
+
+nextBtn.addEventListener("click", () => {
+  const maxIndex = testimonialCards.length - getVisibleCards();
+  currentIndex = currentIndex >= maxIndex ? 0 : currentIndex + 1; // لو وصلنا للآخر نرجع للأول
+  updateCarousel();
+});
+
+prevBtn.addEventListener("click", () => {
+  const maxIndex = testimonialCards.length - getVisibleCards();
+  currentIndex = currentIndex <= 0 ? maxIndex : currentIndex - 1; 
+  updateCarousel();
+});
+
+indicators.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    currentIndex = Number(dot.dataset.index);
+    updateCarousel();
+  });
+});
+
+
+window.addEventListener("resize", updateCarousel);
+updateCarousel();
