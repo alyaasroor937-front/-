@@ -23,3 +23,27 @@ navLinks.forEach((link, index) => {
 
 window.addEventListener("scroll", setActiveLink);
 setActiveLink(); 
+
+
+const htmlElement = document.documentElement;
+const themeToggleBtn = document.getElementById("theme-toggle-button");
+
+const savedTheme = localStorage.getItem("theme");
+if (savedTheme === "light") {
+  htmlElement.classList.remove("dark");
+}
+updateThemeButton();
+
+
+themeToggleBtn.addEventListener("click", () => {
+htmlElement.classList.toggle("dark");
+
+const isDark = htmlElement.classList.contains("dark");
+localStorage.setItem("theme", isDark ? "dark" : "light");
+updateThemeButton();
+});
+
+function updateThemeButton() {
+const isDark = htmlElement.classList.contains("dark");
+themeToggleBtn.setAttribute("aria-pressed", isDark);
+}
