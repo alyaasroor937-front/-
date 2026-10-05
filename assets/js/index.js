@@ -137,3 +137,31 @@ indicators.forEach((dot) => {
 
 window.addEventListener("resize", updateCarousel);
 updateCarousel();
+
+
+const settingsToggle = document.getElementById("settings-toggle");
+const settingsSidebar = document.getElementById("settings-sidebar");
+const closeSettings = document.getElementById("close-settings");
+
+function openSettings() {
+  settingsSidebar.classList.remove("translate-x-full");
+  settingsSidebar.setAttribute("aria-hidden", "false");
+  settingsToggle.setAttribute("aria-expanded", "true");
+}
+
+function closeSettingsPanel() {
+  settingsSidebar.classList.add("translate-x-full");
+  settingsSidebar.setAttribute("aria-hidden", "true");
+  settingsToggle.setAttribute("aria-expanded", "false");
+}
+
+settingsToggle.addEventListener("click", () => {
+  const isClosed = settingsSidebar.classList.contains("translate-x-full");
+  if (isClosed) {
+    openSettings();
+  } else {
+    closeSettingsPanel();
+  }
+});
+
+closeSettings.addEventListener("click", closeSettingsPanel);
